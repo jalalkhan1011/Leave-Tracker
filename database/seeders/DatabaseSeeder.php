@@ -21,8 +21,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         DB::table('permissions')->truncate();
-        DB::table('users')->truncate(); 
-        DB::table('units')->truncate();
+        DB::table('users')->truncate();  
         $this->call([
             PermissionTableSeeder::class,
             AdminUserSeeder::class,

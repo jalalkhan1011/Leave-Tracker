@@ -25,61 +25,7 @@
                     </a>
                 </li> 
             </ul>
-        </li><!-- End Components Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#product-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-cart-plus"></i><span>{{ __('Product Management') }}</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="product-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="{{ route('products.index') }}">
-                        <i class="bi bi-circle"></i><span>{{ __('Products') }}</span>
-                    </a>
-                </li>  
-                <li>
-                    <a href="{{ route('brands.index') }}">
-                        <i class="bi bi-circle"></i><span>{{ __('Brands') }}</span>
-                    </a>
-                </li>  
-                <li>
-                    <a href="{{ route('categories.index') }}">
-                        <i class="bi bi-circle"></i><span>{{ __('Category') }}</span>
-                    </a>
-                </li> 
-                <li>
-                    <a href="{{ route('units.index') }}">
-                        <i class="bi bi-circle"></i><span>{{ __('Unit') }}</span>
-                    </a>
-                </li> 
-            </ul>
-        </li><!-- End Components Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#purchase-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-cart-plus"></i><span>{{ __('Purchase') }}</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="purchase-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav"> 
-                <li>
-                    <a href="{{ route('purchases.index') }}">
-                        <i class="bi bi-circle"></i><span>{{ __('Purchase') }}</span>
-                    </a>
-                </li>  
-            </ul>
-        </li><!-- End Components Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#supplier-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-cart-plus"></i><span>{{ __('Supplier') }}</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="supplier-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav"> 
-                <li>
-                    <a href="{{ route('suppliers.index') }}">
-                        <i class="bi bi-circle"></i><span>{{ __('Suppliers') }}</span>
-                    </a>
-                </li>  
-            </ul>
-        </li><!-- End Components Nav -->
+        </li><!-- End Components Nav --> 
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
