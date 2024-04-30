@@ -3,7 +3,8 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RoleController; 
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRegistrationController;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('user-registration',[UserRegistrationController::class,'index']);
+Route::get('user-registration', [UserRegistrationController::class, 'index']);
 Route::get('logout', [LoginController::class, 'logout']);
 
 Auth::routes();
@@ -33,10 +34,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::middleware('auth')->group(function () {
-    //Admin routte starte
+    //Admin route starte
     Route::group(['prefix' => 'admin'], function () {
         Route::resource('roles', RoleController::class);
         Route::resource('users', UserController::class);
     });
-    //Admin routte end 
+    //Admin route end 
+
+    //Leave route start
+    Route::group(['prefix' => 'leave'], function () {
+        Route::resource('leaves', LeaveController::class);
+    });
+    //Leave route end
 });

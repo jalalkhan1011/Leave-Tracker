@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PermissionTableSeeder::class,
             AdminUserSeeder::class,
             UserPermissionSeeder::class, 
+            LeavePermissionTableSeeder::class,
         ]);
     }
 }

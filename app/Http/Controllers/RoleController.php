@@ -45,7 +45,7 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
-            'permission_id' => 'required',
+            // 'permission_id' => 'required',
         ]);
         DB::beginTransaction();
         try {
@@ -97,21 +97,14 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'permission_id' => 'required',
+            // 'permission_id' => 'required',
         ]);
         DB::beginTransaction();
         try {
             $role = Role::find($role->id);
             $role->name = $request->name;
-            $role->save();
-            // $checkLabelDelete = PermissionLabelCheck::where('role_id', $role->id)->delete();
-            foreach ($request->permission_label as $key => $permission) {
-                // PermissionLabelCheck::create([
-                //     'permission_label' => $request->permission_label[$key],
-                //     'role_name' => $request->name,
-                //     'role_id' => $role->id,
-                //     'check_status' => isset($request->check_status[$permission]) ? '1' : '0',
-                // ]);
+            $role->save(); 
+            foreach ($request->permission_label as $key => $permission) { 
                 PermissionLabelCheck::where([['permission_label', $permission]])->update([
                     'check_status' => isset($request->check_status[$permission]) ? '1' : '0',
                 ]);

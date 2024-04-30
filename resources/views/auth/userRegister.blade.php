@@ -16,7 +16,7 @@
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-                                <input  type="hidden" class="form-control" name="userType" value="user" required>
+                                <input  type="hidden" class="form-control" name="userType" value="employee" required>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
