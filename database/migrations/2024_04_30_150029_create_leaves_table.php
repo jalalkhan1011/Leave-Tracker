@@ -18,6 +18,8 @@ return new class extends Migration
             $table->date('end_date');
             $table->enum('leave_type', ['Casual Leave', 'Sick Leave', 'Emergency Leave'])->default('Casual Leave');
             $table->enum('leave_status', ['Pending', 'Approve', 'Reject'])->default('Pending');
+            $table->text('leave_rason');
+            $table->text('note');
             $table->timestamps();
         });
     }

@@ -44,38 +44,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function brand()
+    public function employee()
     {
-        return $this->hasMany(Brand::class);
-    }
-
-    public function supplier()
-    {
-        return $this->hasMany(Supplier::class);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function product()
-    {
-        return $this->hasMany(Product::class);
-    }
-
-    public function unit()
-    {
-        return $this->hasMany(Unit::class);
-    }
-
-    public function purchase()
-    {
-        return $this->hasMany(Purchase::class);
-    }
-
-    public function purchaseItem()
-    {
-        return $this->hasMany(PurchaseItem::class);
+        return $this->hasMany(Employee::class);
     }
 }
