@@ -35,6 +35,50 @@
                 }
             });
     }
+    function sweetAlertApprove(id) {
+        event.preventDefault();
+        swal({
+                title: "Are you sure?",
+                text: "Wants to approve this user to login your system!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! The requested user approve by you!", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 2000
+                    });
+                    $("#successApprove" + id).submit();
+                } else {
+                    swal("Requested user not approve!");
+                }
+            });
+    }
+    function sweetAlertBlock(id) {
+        event.preventDefault();
+        swal({
+                title: "Are you sure?",
+                text: "Wants to block this user to prevent login from your system!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! This user is block by you!", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 2000
+                    });
+                    $("#successBlock" + id).submit();
+                } else {
+                    swal("This user in not block!");
+                }
+            });
+    }
 </script>
 <script>
     $('.dropify').dropify();

@@ -18,6 +18,8 @@ class UserController extends Controller
         $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:user-approve', ['only' => ['approve']]);
+        $this->middleware('permission:user-block', ['only' => ['block']]);
     }
     /**
      * Display a listing of the resource.
@@ -124,6 +126,42 @@ class UserController extends Controller
             $user->delete();
             DB::commit();
             toastr()->error('User delete successfully', 'Delete');
+            return back();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            toastr()->error('Something want wrong', '!Opps');
+            return back();
+        }
+    }
+
+    public function approve($id)
+    {
+        DB::beginTransaction();
+        try {
+            $userApprove = User::where('id', $id)->first();
+            $userApprove->update([
+                'status' => 'approve'
+            ]);
+            DB::commit();
+            toastr()->success('User approve successfully', 'Success');
+            return back();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            toastr()->error('Something want wrong', '!Opps');
+            return back();
+        }
+    }
+
+    public function block($id)
+    {
+        DB::beginTransaction();
+        try {
+            $userBlock = User::where('id', $id)->first();
+            $userBlock->update([
+                'status' => 'block'
+            ]);
+            DB::commit();
+            toastr()->success('User block successfully', 'Success');
             return back();
         } catch (\Throwable $th) {
             DB::rollBack();

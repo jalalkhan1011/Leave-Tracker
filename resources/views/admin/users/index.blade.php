@@ -9,8 +9,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h5 class="card-title">Users</h5>
-                                <p>All user list</p>
+                                <h5 class="card-title">{{ __('Users') }}</h5>
+                                <p>{{ __('All user list') }}</p>
                             </div>
                             <div class="col-lg-6 text-end mt-3">
                                 @can('user-create')
@@ -24,11 +24,11 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th scope="col">#Sl</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">{{ __('#Sl') }}</th>
+                                    <th scope="col">{{ __('Name') }}</th>
+                                    <th scope="col">{{ __('Email') }}</th>
+                                    <th scope="col">{{ __('Role') }}</th>
+                                    <th scope="col">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,6 +47,41 @@
                                         </td>
                                         <td>
                                             <ul class="list-inline">
+                                                <li class="list-inline-item">
+                                                    @can('user-approve')
+                                                        @if ($role == 'Employee')
+                                                            @if ($user->status == 'pending' || $user->status == 'block')
+                                                                <form action="{{ route('approve', $user->id) }}" method="post"
+                                                                    id="successApprove{{ $user->id }}">
+                                                                    @csrf
+                                                                    <button type="submit"
+                                                                        class="btn btn-info btn-sm text-white" title="Approve"
+                                                                        onclick="sweetAlertApprove({{ $user->id }})"><i
+                                                                            class="bi bi-check text-white"></i>{{ __('Approve') }}</button>
+                                                                </form>
+                                                            @endif
+                                                        @endif
+                                                    @endcan
+                                                </li>
+
+                                                <li class="list-inline-item">
+                                                    @can('user-block')
+                                                        @if ($role == 'Employee')
+                                                            @if ($user->status == 'approve')
+                                                                <form action="{{ route('block', $user->id) }}" method="post"
+                                                                    id="successBlock{{ $user->id }}">
+                                                                    @csrf
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-sm text-white" title="Block"
+                                                                        onclick="sweetAlertBlock({{ $user->id }})"><i
+                                                                            class="bi bi-lock text-white"></i>{{ __('Block') }}</button>
+                                                                </form>
+                                                            @endif
+                                                        @endif
+                                                    @endcan
+                                                </li>
+
+
                                                 <li class="list-inline-item">
                                                     @can('user-edit')
                                                         <a href="{{ route('users.edit', $user->id) }}"

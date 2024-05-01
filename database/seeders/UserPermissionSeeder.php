@@ -26,22 +26,30 @@ class UserPermissionSeeder extends Seeder
             'check_status' => '1',
         ]);
         Permission::create([
-            'name'=>'user-list',
+            'name' => 'user-list',
             'permission_label' => $permissionLabel->permission_label,
         ]);
         Permission::create([
-            'name'=>'user-create',
+            'name' => 'user-create',
             'permission_label' => $permissionLabel->permission_label,
         ]);
         Permission::create([
-            'name'=>'user-edit',
+            'name' => 'user-edit',
             'permission_label' => $permissionLabel->permission_label,
         ]);
         Permission::create([
-            'name'=>'user-delete',
+            'name' => 'user-delete',
+            'permission_label' => $permissionLabel->permission_label,
+        ]);
+        Permission::create([
+            'name' => 'user-approve',
+            'permission_label' => $permissionLabel->permission_label,
+        ]);
+        Permission::create([
+            'name' => 'user-block',
             'permission_label' => $permissionLabel->permission_label,
         ]);
         $adminUser = Role::findByName('Admin');
-        $adminUser->givePermissionTo(['user-list','user-create','user-edit','user-delete']);
+        $adminUser->givePermissionTo(['user-list', 'user-create', 'user-edit', 'user-delete', 'user-approve', 'user-block']);
     }
 }

@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('user-registration', [UserRegistrationController::class, 'index']);
+Route::get('user-registration', [UserRegistrationController::class, 'index'])->name('userRegister');
 Route::get('logout', [LoginController::class, 'logout']);
 
 Auth::routes();
@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
     //Admin route starte
     Route::group(['prefix' => 'admin'], function () {
         Route::resource('roles', RoleController::class);
+        Route::post('approves/{id}', [UserController::class, 'approve'])->name('approve');
+        Route::post('blocks/{id}', [UserController::class, 'block'])->name('block');
         Route::resource('users', UserController::class);
     });
     //Admin route end 
