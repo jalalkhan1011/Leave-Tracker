@@ -3,10 +3,17 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="{{ route('home') }}">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
+            @if (Auth::user()->hasRole('Admin'))
+                <a class="nav-link " href="{{ route('home') }}">
+                    <i class="bi bi-grid"></i>
+                    <span>{{ __('Dashboard') }}</span>
+                </a>
+            @else
+                <a class="nav-link " href="{{ route('employeeDashboard') }}">
+                    <i class="bi bi-grid"></i>
+                    <span>{{ __('Dashboard') }}</span>
+                </a>
+            @endif
         </li><!-- End Dashboard Nav -->
         @if (Auth::user()->hasRole('Admin'))
             <li class="nav-item">
@@ -29,33 +36,36 @@
             </li><!-- End Components Nav -->
         @endif
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="forms-elements.html">
-                        <i class="bi bi-circle"></i><span>Form Elements</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-layouts.html">
-                        <i class="bi bi-circle"></i><span>Form Layouts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-editors.html">
-                        <i class="bi bi-circle"></i><span>Form Editors</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-validation.html">
-                        <i class="bi bi-circle"></i><span>Form Validation</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End Forms Nav -->
+        @if (Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Employee'))
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>{{ __('Leaves') }}</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('leaves.index') }}">
+                            <i class="bi bi-circle"></i><span>{{ __('Leave') }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="forms-layouts.html">
+                            <i class="bi bi-circle"></i><span>Form Layouts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="forms-editors.html">
+                            <i class="bi bi-circle"></i><span>Form Editors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="forms-validation.html">
+                            <i class="bi bi-circle"></i><span>Form Validation</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Forms Nav -->
+        @endif
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">

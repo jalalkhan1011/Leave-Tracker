@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Leave;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LeaveController extends Controller
 {
@@ -20,7 +22,13 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::user()->hasRole('Admin')) {
+            $leaves = Leave::orderBy('id', 'DESC')->get();
+        } else {
+            $leaves = Leave::where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->get();
+        }
+
+        return view('admin.leave.index', compact('leaves'));
     }
 
     /**
@@ -28,7 +36,7 @@ class LeaveController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.leave.create');
     }
 
     /**
@@ -36,7 +44,29 @@ class LeaveController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'leave_type' => 'required',
+            'leave_rason' => 'required',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $data = $request->all();
+            $data['user_id'] = auth()->user()->id;
+            $data['start_date'] = date('Y-m-d', strtotime($request->start_date));
+            $data['end_date'] = date('Y-m-d', strtotime($request->end_date));
+            $data['leave_status'] = 'Pending';
+            $leave = Leave::create($data);
+            DB::commit();
+            toastr()->success('Leave request create successfully', '!Success');
+            return redirect(route('leaves.index'));
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            toastr()->error('Something want wrong', '!Opps');
+            return back();
+        }
     }
 
     /**

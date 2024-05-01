@@ -31,6 +31,7 @@ Route::get('logout', [LoginController::class, 'logout']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/employee-dashboard',[HomeController::class,'employeeDashboard'])->name('employeeDashboard');
 
 
 Route::middleware('auth')->group(function () {

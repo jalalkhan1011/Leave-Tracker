@@ -21,7 +21,7 @@
     @include('admin.includes.vendorCss')
 
     <!-- Template Main CSS File -->
-    @include('admin.includes.mainCss') 
+    @include('admin.includes.mainCss')
     @stack('css')
 </head>
 
@@ -41,7 +41,13 @@
             <h1>{{ __('Dashboard') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#!">{{ __('Home') }}</a></li>
+                    <li class="breadcrumb-item">
+                        @if (Auth::user()->hasRole('Admin'))
+                            <a href="{{ route('home') }}">{{ __('Home') }}</a>
+                        @else
+                            <a href="{{ route('employeeDashboard') }}">{{ __('Home') }}</a>
+                        @endif
+                    </li>
                     <li class="breadcrumb-item active">@yield('title')</li>
                 </ol>
             </nav>
@@ -64,7 +70,7 @@
     @include('admin.includes.vendorJs')
 
     <!-- Template Main JS File -->
-    @include('admin.includes.mainJs') 
+    @include('admin.includes.mainJs')
     @stack('js')
 
 </body>
