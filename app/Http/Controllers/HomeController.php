@@ -37,9 +37,8 @@ class HomeController extends Controller
             $request->session()->regenerate();
             return redirect(route('login'))->with('success', 'Your are blocked by admin. You are not able to login your account!');
         } elseif ($user->status == 'approve' && $role == 'Employee') {
-            dd('you are logdin');
+            return view('admin.dashboard.employeeDashboard');
         }
-
         return view('home');
     }
 }
