@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\LeaveApprove;
+use App\Mail\LeaveReject;
+use App\Mail\LeaveSubmission;
 use App\Models\Leave;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Monolog\Level;
+use Illuminate\Support\Facades\Mail;
 
 class LeaveController extends Controller
 {
@@ -61,8 +65,13 @@ class LeaveController extends Controller
             $data['end_date'] = date('Y-m-d', strtotime($request->end_date));
             $data['leave_status'] = 'Pending';
             $leave = Leave::create($data);
+
+            $userInfo = User::where('id',auth()->user()->id)->first();
+            $mail = $userInfo->email;
+            $name = $userInfo->name;
+            Mail::to($mail)->send(new LeaveSubmission($mail,$name));
             DB::commit();
-            toastr()->success('Leave request create successfully', '!Success');
+            toastr()->success('Leave request create successfully.We send you a mail about leave submission', '!Success');
             return redirect(route('leaves.index'));
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -107,19 +116,24 @@ class LeaveController extends Controller
     public function leaveApproveReject(Request $request, $id)
     {
         $leave = Leave::where('id', $id)->first();
+        $userInfo = User::where('id',$leave->user_id)->first();
+        $mail = $userInfo->email;
+        $name = $userInfo->name;
         if ($request->approve == 'approve') {
             $leave->update([
                 'note' => $request->note,
                 'leave_status' => 'Approve',
-            ]);
-            toastr()->success('Leave Approve successfully', '!Success');
+            ]); 
+            Mail::to($mail)->send(new LeaveApprove($mail,$name));
+            toastr()->success('Leave Approve successfully.We sent you a mail for apprve leave request', '!Success');
             return redirect(route('leaves.index'));
         } else {
             $leave->update([
                 'note' => $request->note,
                 'leave_status' => 'Reject',
             ]);
-            toastr()->error('Leave Rejected', '!Rejected');
+            Mail::to($mail)->send(new LeaveReject($mail,$name));
+            toastr()->error('Leave Rejected.Your leave is rejected please check your mail', '!Rejected');
             return redirect(route('leaves.index'));
         }
     }
