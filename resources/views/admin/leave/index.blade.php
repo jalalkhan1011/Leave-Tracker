@@ -29,6 +29,7 @@
                                     <th scope="col">{{ __('Employee Name') }}</th>
                                     <th scope="col">{{ __('Start Date') }}</th>
                                     <th scope="col">{{ __('End Date') }}</th>
+                                    <th scope="col">{{ __('Status') }}</th>
                                     <th scope="col">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -40,64 +41,16 @@
                                         <td>{{ $leave->user->name ?? '' }}</td>
                                         <td>{{ date('d-M-Y',strtotime($leave->start_date ?? '')) }}</td> 
                                         <td>{{ date('d-M-Y',strtotime($leave->end_date ?? '')) }}</td> 
-                                        {{-- <td>
+                                        <td>{{ $leave->leave_status ?? '' }}</td> 
+                                        <td>
                                             <ul class="list-inline">
-                                                <li class="list-inline-item">
-                                                    @can('user-approve')
-                                                        @if ($role == 'Employee')
-                                                            @if ($user->status == 'pending' || $user->status == 'block')
-                                                                <form action="{{ route('approve', $user->id) }}" method="post"
-                                                                    id="successApprove{{ $user->id }}">
-                                                                    @csrf
-                                                                    <button type="submit"
-                                                                        class="btn btn-info btn-sm text-white" title="Approve"
-                                                                        onclick="sweetAlertApprove({{ $user->id }})"><i
-                                                                            class="bi bi-check text-white"></i>{{ __('Approve') }}</button>
-                                                                </form>
-                                                            @endif
-                                                        @endif
-                                                    @endcan
-                                                </li>
-
-                                                <li class="list-inline-item">
-                                                    @can('user-block')
-                                                        @if ($role == 'Employee')
-                                                            @if ($user->status == 'approve')
-                                                                <form action="{{ route('block', $user->id) }}" method="post"
-                                                                    id="successBlock{{ $user->id }}">
-                                                                    @csrf
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary btn-sm text-white" title="Block"
-                                                                        onclick="sweetAlertBlock({{ $user->id }})"><i
-                                                                            class="bi bi-lock text-white"></i>{{ __('Block') }}</button>
-                                                                </form>
-                                                            @endif
-                                                        @endif
-                                                    @endcan
-                                                </li>
-
-
-                                                <li class="list-inline-item">
-                                                    @can('user-edit')
-                                                        <a href="{{ route('users.edit', $user->id) }}"
-                                                            class="btn btn-warning btn-sm text-white" title="Edit"><i
-                                                                class="bi bi-pen text-white"></i>{{ __('Edit') }}</a>
-                                                    @endcan
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    @can('user-delete')
-                                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                                            id="deleteButton{{ $user->id }}">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete"
-                                                                onclick="sweetAlertDelete({{ $user->id }})"><i
-                                                                    class="bi bi-trash"></i>{{ __('Delete') }}</button>
-                                                        </form>
-                                                    @endcan
+                                                <li class="list-inline-item"> 
+                                                    <a href="{{ route('leaves.show', $leave->id) }}"
+                                                        class="btn btn-info btn-sm text-white" title="View"><i
+                                                            class="bi bi-eye text-white"></i> {{ __('view') }}</a>
                                                 </li>
                                             </ul>
-                                        </td> --}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

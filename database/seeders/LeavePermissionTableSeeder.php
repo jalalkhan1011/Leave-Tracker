@@ -42,16 +42,12 @@ class LeavePermissionTableSeeder extends Seeder
             'permission_label' => $permissionLabel->permission_label,
         ]);
         Permission::create([
-            'name'=>'leave-approve',
+            'name'=>'leave-approve-reject',
             'permission_label' => $permissionLabel->permission_label,
-        ]);
-        Permission::create([
-            'name'=>'leave-reject',
-            'permission_label' => $permissionLabel->permission_label,
-        ]);
+        ]); 
         $adminUser = Role::findByName('Admin');
         $employeeUser = Role::findByName('Employee');
-        $adminUser->givePermissionTo(['leave-list','leave-create','leave-edit','leave-delete']);
+        $adminUser->givePermissionTo(['leave-list','leave-create','leave-edit','leave-delete','leave-approve-reject']);
         $employeeUser->givePermissionTo(['leave-list','leave-create']);
     }
 }

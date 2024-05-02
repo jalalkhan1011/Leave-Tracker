@@ -6,6 +6,7 @@ use App\Models\Leave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Monolog\Level;
 
 class LeaveController extends Controller
 {
@@ -16,6 +17,7 @@ class LeaveController extends Controller
         $this->middleware('permission:leave-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:leave-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:leave-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:leave-approve-reject', ['only' => ['leaveApproveReject']]);
     }
     /**
      * Display a listing of the resource.
@@ -72,9 +74,10 @@ class LeaveController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Leave $leave)
+    public function show(Leave $leave, $id)
     {
-        //
+        $leave = Leave::where('id', $id)->first();
+        return view('admin.leave.show', compact('leave'));
     }
 
     /**
@@ -99,5 +102,25 @@ class LeaveController extends Controller
     public function destroy(Leave $leave)
     {
         //
+    }
+
+    public function leaveApproveReject(Request $request, $id)
+    {
+        $leave = Leave::where('id', $id)->first();
+        if ($request->approve == 'approve') {
+            $leave->update([
+                'note' => $request->note,
+                'leave_status' => 'Approve',
+            ]);
+            toastr()->success('Leave Approve successfully', '!Success');
+            return redirect(route('leaves.index'));
+        } else {
+            $leave->update([
+                'note' => $request->note,
+                'leave_status' => 'Reject',
+            ]);
+            toastr()->error('Leave Rejected', '!Rejected');
+            return redirect(route('leaves.index'));
+        }
     }
 }

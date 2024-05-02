@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Leave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,11 +40,21 @@ class HomeController extends Controller
         } elseif ($user->status == 'approve' && $role == 'Employee') {
             return redirect(route('employeeDashboard'));
         }
-        return view('home');
+        $totalLeave = Leave::count();
+        $pendingRequest = Leave::where('leave_status', 'Pending')->count();
+        $approveRequest = Leave::where('leave_status', 'Approve')->count();
+        $rejectRequest = Leave::where('leave_status', 'Reject')->count();
+
+        return view('home', compact('totalLeave', 'pendingRequest', 'approveRequest', 'rejectRequest'));
     }
 
     public function employeeDashboard()
     {
-        return view('admin.dashboard.employeeDashboard');
+        $userId = auth()->user()->id;
+        $totalLeave = Leave::where('user_id', $userId)->count();
+        $pendingRequest = Leave::where('user_id', $userId)->where('leave_status', 'Pending')->count();
+        $approveRequest = Leave::where('user_id', $userId)->where('leave_status', 'Approve')->count();
+        $rejectRequest = Leave::where('user_id', $userId)->where('leave_status', 'Reject')->count();
+        return view('admin.dashboard.employeeDashboard', compact('totalLeave', 'pendingRequest', 'approveRequest', 'rejectRequest'));
     }
 }
